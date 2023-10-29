@@ -1,0 +1,50 @@
+{
+  "name": "altlekarz",
+  "version": "1.0.0",
+  "description": "Aplikacja prezentująca specjalistów",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "webpack serve",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pslowik/altlekarz.git"
+  },
+  "author": "pslowik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pslowik/altlekarz/issues"
+  },
+  "homepage": "https://github.com/pslowik/altlekarz#readme",
+  "dependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/plugin-transform-runtime": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "babel-loader": "^9.1.2",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^18.2.0",
+    "react-datepicker": "^4.11.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.10.0",
+    "webpack": "^5.76.2",
+    "webpack-server": "^0.1.2"
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "file-loader": "^6.2.0",
+    "node-sass": "^8.0.0",
+    "postcss-loader": "^7.2.4",
+    "sass-loader": "^13.2.2",
+    "style-loader": "^3.3.2",
+    "svg-url-loader": "^8.0.0",
+    "url-loader": "^4.1.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
+  }
+}
