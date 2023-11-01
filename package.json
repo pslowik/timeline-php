@@ -1,7 +1,8 @@
 {
-  "name": "altlekarz",
+  "name": "timelinPHPPS",
   "version": "1.0.0",
-  "description": "Aplikacja prezentująca specjalistów",
+  "proxy": "http://localhost",
+  "description": "Aplikacja prezentująca linie czasu",
   "main": "index.js",
   "scripts": {
     "test": "test",
@@ -10,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pslowik/altlekarz.git"
+    "url": "git+https://github.com/pslowik/timeline-php.git"
   },
   "author": "pslowik",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pslowik/altlekarz/issues"
+    "url": "https://github.com/pslowik/timeline-php/issues"
   },
-  "homepage": "https://github.com/pslowik/altlekarz#readme",
+  "homepage": "https://github.com/pslowik/timeline-php#readme",
   "dependencies": {
     "@babel/core": "^7.21.4",
     "@babel/plugin-transform-runtime": "^7.21.4",
@@ -26,6 +27,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "axios": "^1.6.0",
     "babel-loader": "^9.1.2",
     "html-webpack-plugin": "^5.5.0",
     "react": "^18.2.0",

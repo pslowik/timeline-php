@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
+
 
 function Home() {
+  const { user } = useContext(AuthContext);
+
   return (
       <div className="under_nav home">
         <div className="box-small">

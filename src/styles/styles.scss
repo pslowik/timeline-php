@@ -103,6 +103,7 @@ footer {
   right: 0;
   height: 40px;
   background-color: $background-color_1;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -171,7 +172,7 @@ p {
 }
 
 .home { 
-  background-image: url('/public/pics/lekarze-home.jpg');
+  //background-image: url('/public/pics/lekarze-home.jpg');
   height: 90vh;
   background-size: cover;
   background-position: center;
@@ -207,7 +208,7 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #000;
+  color: #fff;
 
 }
 
