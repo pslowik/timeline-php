@@ -1,12 +1,74 @@
 <?php
-// Połączenie z bazą danych
-$mysqli = new mysqli("localhost", "username", "password", "TimelineApp");
 
-// Sprawdzenie połączenia
-if ($mysqli -> connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-  exit();
+header("Access-Control-Allow-Origin: http://localhost:8001");  // Zastąp 8001 portem, na którym działa Twoja aplikacja React
+header("Access-Control-Allow-Methods: POST, OPTIONS");  // Dopuszcza tylko zapytania POST
+header("Access-Control-Allow-Headers: Content-Type");  // Zezwala na nagłówki Content-Type
+header("Access-Control-Allow-Credentials: true"); 
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    // Respond to the preflight request
+    exit;
 }
+
+// Połączenie z bazą danych
+include 'connection.php';
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
+    $action = $_POST['action'];
+    switch ($action) {
+        // Dla Events
+        case 'createEvent':
+            createEvent($_POST['data']);
+            break;
+        case 'getAllFromEvents':
+            getAllFromEvents();
+            break;
+        case 'getEvents':
+            getEvents();
+            break;
+        case 'updateEvent':
+            updateEvent($_POST['data']);
+            break;
+        case 'deleteEvent':
+            deleteEvent($_POST['event_id']);
+            break;
+
+        // Dla Categories
+        case 'createCategory':
+            createCategory($_POST['data']);
+            break;
+        case 'getCategories':
+            getCategories();
+            break;
+        case 'updateCategory':
+            updateCategory($_POST['data']);
+            break;
+        case 'deleteCategory':
+            deleteCategory($_POST['category_id']);
+            break;
+
+        // Dla Users
+        case 'createUser':
+            createUser($_POST['data']);
+            break;
+        case 'getUsers':
+            getUsers();
+            break;
+        case 'updateUser':
+            updateUser($_POST['data']);
+            break;
+        case 'deleteUser':
+            deleteUser($_POST['user_id']);
+            break;
+
+        default:
+            echo json_encode(['error' => 'Nieznana akcja']);
+            break;
+    }
+}
+
+
 
 // Funkcje dla operacji CRUD
 
@@ -17,37 +79,58 @@ if ($mysqli -> connect_errno) {
 //
 
 // CREATE
-function createEvent($event_name, $start_date, $end_date, $description, $category_id) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("INSERT INTO Events (event_name, start_date, end_date, description, category_id) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sss", $event_name, $start_date, $end_date, $description, $category_id);
-    $stmt->execute();
-    $stmt->close();
+function createEvent($data) {
+    global $pdo;
+    $stmt = $pdo->prepare("INSERT INTO Events (event_name, start_date, end_date, description, category_id) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$data['event_name'], $data['start_date'], $data['end_date'], $data['description'], $data['category_id']]);
 }
 
 // READ
-function getEvents() {
-    global $mysqli;
-    $result = $mysqli->query("SELECT * FROM Events");
-    return $result->fetch_all(MYSQLI_ASSOC);
+function getAllFromEvents() {
+    global $pdo;
+    $result = $pdo->query("SELECT * FROM Events");
+    $events = $result->fetchAll();
+    echo json_encode($events);
 }
 
+function getEvents() {
+    global $pdo;
+    $query = "
+        SELECT 
+            `Events`.`event_id`,
+            `Events`.`event_name`,
+            `Events`.`start_date`,
+            `Events`.`end_date`,
+            `Events`.`description`,
+            `Events`.`image_url`,
+            `Categories`.`category_id`,
+            `Categories`.`category_name`,
+            `Categories`.`graphic_feature`
+        FROM `Events`
+        JOIN `Categories` ON `Events`.`category_id` = `Categories`.`category_id`
+        WHERE 1
+        ORDER BY `Events`.`start_date` ASC
+    ";
+    $result = $pdo->query($query);
+    $events = $result->fetchAll();
+    echo json_encode($events);
+}
+
+
+
+
 // UPDATE
-function updateEvent($event_id, $event_name, $start_date, $end_date, $description, $category_id) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("UPDATE Events SET event_name=?, start_date=?, end_date=?, description=?, category_id=? WHERE event_id=?");
-    $stmt->bind_param("sss", $event_name, $start_date, $end_date, $description, $category_id, $event_id);
-    $stmt->execute();
-    $stmt->close();
+function updateEvent($data) {
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE Events SET event_name=?, start_date=?, end_date=?, description=?, category_id=? WHERE event_id=?");
+    $stmt->execute([$data['event_name'], $data['start_date'], $data['end_date'], $data['description'], $data['category_id'], $data['event_id']]);
 }
 
 // DELETE
 function deleteEvent($event_id) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("DELETE FROM Events WHERE event_id=?");
-    $stmt->bind_param("i", $event_id);
-    $stmt->execute();
-    $stmt->close();
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM Events WHERE event_id=?");
+    $stmt->execute([$event_id]);
 }
 
 //______________
@@ -56,37 +139,32 @@ function deleteEvent($event_id) {
 //
 
 // CREATE
-function createCategory($category_name, $graphic_feature) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("INSERT INTO Categories (category_name, graphic_feature) VALUES (?, ?)");
-    $stmt->bind_param("ss", $category_name, $graphic_feature);
-    $stmt->execute();
-    $stmt->close();
+function createCategory($data) {
+    global $pdo;
+    $stmt = $pdo->prepare("INSERT INTO Categories (category_name, graphic_feature) VALUES (?, ?)");
+    $stmt->execute([$data['category_name'], $data['graphic_feature']]);
 }
 
 // READ
 function getCategories() {
-    global $mysqli;
-    $result = $mysqli->query("SELECT * FROM Categories");
-    return $result->fetch_all(MYSQLI_ASSOC);
+    global $pdo;
+    $result = $pdo->query("SELECT * FROM Categories");
+    $categories = $result->fetchAll();
+    echo json_encode($categories);
 }
 
 // UPDATE
-function updateCategory($category_id, $category_name, $graphic_feature) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("UPDATE Categories SET category_name=?, graphic_feature=? WHERE category_id=?");
-    $stmt->bind_param("ssi", $category_name, $graphic_feature, $category_id);
-    $stmt->execute();
-    $stmt->close();
+function updateCategory($data) {
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE Categories SET category_name=?, graphic_feature=? WHERE category_id=?");
+    $stmt->execute([$data['category_name'], $data['graphic_feature'], $data['category_id']]);
 }
 
 // DELETE
 function deleteCategory($category_id) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("DELETE FROM Categories WHERE category_id=?");
-    $stmt->bind_param("i", $category_id);
-    $stmt->execute();
-    $stmt->close();
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM Categories WHERE category_id=?");
+    $stmt->execute([$category_id]);
 }
 
 
@@ -96,37 +174,32 @@ function deleteCategory($category_id) {
 //
 
 // CREATE
-function createUser($username, $password_hash, $salt, $role) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("INSERT INTO Users (username, password_hash, salt, role) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $username, $password_hash, $salt, $role);
-    $stmt->execute();
-    $stmt->close();
+function createUser($data) {
+    global $pdo;
+    $stmt = $pdo->prepare("INSERT INTO Users (username, password_hash, salt, role) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$data['username'], $data['password_hash'], $data['salt'], $data['role']]);
 }
 
 // READ
 function getUsers() {
-    global $mysqli;
-    $result = $mysqli->query("SELECT * FROM Users");
-    return $result->fetch_all(MYSQLI_ASSOC);
+    global $pdo;
+    $result = $pdo->query("SELECT * FROM Users");
+    $users = $result->fetchAll();
+    echo json_encode($users);
 }
 
 // UPDATE
-function updateUser($user_id, $username, $password_hash, $salt, $role) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("UPDATE Users SET username=?, password_hash=?, salt=?, role=? WHERE user_id=?");
-    $stmt->bind_param("ssssi", $username, $password_hash, $salt, $role, $user_id);
-    $stmt->execute();
-    $stmt->close();
+function updateUser($data) {
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE Users SET username=?, password_hash=?, salt=?, role=? WHERE user_id=?");
+    $stmt->execute([$data['username'], $data['password_hash'], $data['salt'], $data['role'], $data['user_id']]);
 }
 
 // DELETE
 function deleteUser($user_id) {
-    global $mysqli;
-    $stmt = $mysqli->prepare("DELETE FROM Users WHERE user_id=?");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $stmt->close();
+    global $pdo;
+    $stmt = $pdo->prepare("DELETE FROM Users WHERE user_id=?");
+    $stmt->execute([$user_id]);
 }
 
 ?>

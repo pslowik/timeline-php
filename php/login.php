@@ -1,4 +1,15 @@
 <?php
+
+header("Access-Control-Allow-Origin: http://localhost:8001");  // Zastąp 8001 portem, na którym działa Twoja aplikacja React
+header("Access-Control-Allow-Methods: POST, OPTIONS");  // Dopuszcza tylko zapytania POST
+header("Access-Control-Allow-Headers: Content-Type");  // Zezwala na nagłówki Content-Type
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    // odpowiedz na preflight request
+    exit;
+}
+
 include_once 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = $stmt->fetch();
         
         if($user && password_verify($data->password, $user['password_hash'])){
+            //ustawianie session 
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
             echo json_encode(["message" => "Login successful.", "user" => $user]);
         } else {
             echo json_encode(["message" => "Invalid credentials."]);

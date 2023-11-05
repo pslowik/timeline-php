@@ -14,22 +14,32 @@ function Login() {
 
     const login = async () => {
         try {
-            const response = await axios.post('./php/login.php', {
+            const response = await axios.post('http://localhost/timeline-php/php/login.php', {
                 username,
                 password,
-            });        
-            if (response.status === 200) {
+            },
+            { withCredentials: true }
+            );        
+            if (response.data.message === "Login successful.") {
                 setMessage(response.data.message);
                 setUser(response.data.user);
-                navigate.push("/");  // Przekierowanie na stronę główna
+                console.log('user:', response.data.user);
+                navigate("/");  // Przekierowanie na stronę główna
             } else {
-                setMessage('Something went wrong. Please try again later.');
+                setMessage(response.data.message || 'Something went wrong. Please try again later.');
             }
         } catch (error) {
             console.error('Error:', error);
             setMessage('Login failed.');
         }
     };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            login();
+        }
+    };
+    
 
     return (
         <div style={styles.container}>
@@ -46,6 +56,7 @@ function Login() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     style={styles.input}
                 />
                 <button onClick={login} style={styles.button}>Login</button>

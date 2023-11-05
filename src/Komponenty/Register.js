@@ -13,14 +13,14 @@ function Register() {
 
     const register = async () => {
         try {
-            const response = await axios.post('./php/register.php', {
+            const response = await axios.post('http://localhost/timeline-php/php/registration.php', {
                 username,
                 password,
             });        
             if (response.status === 200) {
                 setMessage(response.data.message);
                 setUser(response.data.user);
-                navigate.push("/");  // Przekierowanie na stronę główna
+                navigate("/login");  // Przekierowanie na stronę logowania
             } else {
                 setMessage('Something went wrong. Please try again later.');
             }
