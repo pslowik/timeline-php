@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
 
-function EventBadge({ event }) {
+function EventBadge({ event, alignRight }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const badgeStyle = {
     backgroundColor: event.graphic_feature || '#f9f9f9',
@@ -26,7 +26,7 @@ function EventBadge({ event }) {
   };
 
   return (
-    <div className="event-badge" style={badgeStyle}>
+    <div className={`event-badge ${alignRight ? 'align-right' : ''}`} style={badgeStyle}>
       <div onClick={handleOpenDialog}>
         <h3>{event.event_name}</h3>
         <p>Start: {event.start_date}</p>
@@ -93,15 +93,15 @@ function EventTimeline() {
   }
 
   return (
-    <div className="event-timeline">
-      {eventsData.map((event, index) => (
-        <EventBadge
-          key={index}
-          event={event}
-        />
-      ))
-      }
-    </div>
+      <div className="timeline">
+        <div className="event-line"></div>  {/* Dodane linia czasu */}
+        {eventsData.map((event, index) => (
+          <div className="event" key={index}>
+            <div className="event-node"></div>
+            <EventBadge event={event} alignRight={index % 2 === 1} />
+          </div>
+        ))}
+      </div>
   );
 }
 

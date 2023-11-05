@@ -2,13 +2,14 @@ import React, {useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import EventTimeline from './Komponenty/EventTimeline';
+import EventTimelineMUI from './Komponenty/EventTimelineMUI';
 
 function Home() {
   const { user } = useContext(AuthContext);
 
   return (
       <div className="under_nav home">
-        <EventTimeline />
+        <EventTimelineMUI />
         {/*<div className="box-small">
           <div>
             <h2>Witaj na stronie kliniki lekarzy</h2>

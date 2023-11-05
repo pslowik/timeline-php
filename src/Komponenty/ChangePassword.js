@@ -1,45 +1,34 @@
 import React, { useState, useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 
-
-function Login() {
+function Register() {
     const { setUser } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const login = async () => {
+    const register = async () => {
         try {
-            const response = await axios.post('http://localhost/timeline-php/php/login.php', {
+            const response = await axios.post('http://localhost/timeline-php/php/registration.php', {
                 username,
                 password,
-            },
-            { withCredentials: true }
-            );        
-            if (response.data.message === "Login successful.") {
+            });        
+            if (response.status === 200) {
                 setMessage(response.data.message);
                 setUser(response.data.user);
-                console.log('user:', response.data.user);
-                navigate("/");  // Przekierowanie na stronę główna
+                navigate("/login");  // Przekierowanie na stronę logowania
             } else {
-                setMessage(response.data.message || 'Something went wrong. Please try again later.');
+                setMessage('Something went wrong. Please try again later.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setMessage('Login failed.');
+            setMessage('Registration failed.');
         }
     };
-
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            login();
-        }
-    };
-    
 
     return (
         <div style={styles.container}>
@@ -56,13 +45,11 @@ function Login() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    onKeyPress={handleKeyPress}
                     style={styles.input}
                 />
-                <button onClick={login} style={styles.button}>Login</button>
+                <button onClick={register} style={styles.button}>Register</button>
                 {message && <p>{message}</p>}
-                <p>Don't have an account? <NavLink to="/register">Sign up</NavLink></p>
-                <p><NavLink to="/register">Change password</NavLink></p>
+                <p>Already have an account? <NavLink to="/login">Log in</NavLink></p>
             </div>
         </div>
     );
@@ -100,4 +87,4 @@ const styles = {
     }
 };
 
-export default Login;
+export default Register;
