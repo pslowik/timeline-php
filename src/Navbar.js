@@ -33,7 +33,7 @@ function Navbar() {
         <div style={styles.loginContainer}>
           {user ? (
             <>
-              <NavLink to="/admin"  >
+              <NavLink to="/admin" activestyle={styles.activeLink} style={styles.loginLink} >
               <FontAwesomeIcon icon={faUser} style={{color: "#ffffff"}} /> {user.name}
               </NavLink>
               <button onClick={handleLogout} activestyle={styles.activeLink} style={styles.loginLink}>Logout</button>

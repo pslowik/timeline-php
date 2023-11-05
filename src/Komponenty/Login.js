@@ -4,7 +4,6 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
 
-
 function Login() {
     const { setUser } = useContext(AuthContext);
     const [username, setUsername] = useState('');
@@ -23,7 +22,7 @@ function Login() {
             if (response.data.message === "Login successful.") {
                 setMessage(response.data.message);
                 setUser(response.data.user);
-                console.log('user:', response.data.user);
+                console.log('user:', response.data.user.username);
                 navigate("/");  // Przekierowanie na stronę główna
             } else {
                 setMessage(response.data.message || 'Something went wrong. Please try again later.');
@@ -56,13 +55,13 @@ function Login() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyPress}
                     style={styles.input}
                 />
                 <button onClick={login} style={styles.button}>Login</button>
                 {message && <p>{message}</p>}
                 <p>Don't have an account? <NavLink to="/register">Sign up</NavLink></p>
-                <p><NavLink to="/register">Change password</NavLink></p>
+                <p><NavLink to="/changepassword">Change password</NavLink></p>
             </div>
         </div>
     );
@@ -77,25 +76,28 @@ const styles = {
         backgroundColor: '#f0f0f0',
     },
     formContainer: {
+        backgroundColor: '#ffffff',
         padding: '20px',
-        borderRadius: '5px',
-        backgroundColor: '#fff',
+        borderRadius: '8px',
         boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        width: '300px',
     },
     input: {
         width: '95%',
         padding: '10px',
-        marginBottom: '10px',
-        borderRadius: '5px',
+        margin: '10px 0',
+        borderRadius: '4px',
         border: '1px solid #ddd',
     },
     button: {
         width: '100%',
         padding: '10px',
-        borderRadius: '5px',
+        margin: '10px 0',
+        borderRadius: '4px',
         border: 'none',
         backgroundColor: '#008CBA',
         color: '#fff',
+        fontSize: '16px',
         cursor: 'pointer',
     }
 };

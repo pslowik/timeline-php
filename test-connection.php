@@ -9,7 +9,7 @@ try {
 } catch (PDOException $e) {
     echo "Błąd połączenia: " . $e->getMessage();
 }
-
+/*
 function displayEvents() {
     global $dbh;
     try {
@@ -31,6 +31,35 @@ function displayEvents() {
 
 
 displayEvents();
+*/
+
+
+function updateCategory($data) {
+    global $dbh;
+                
+    if (isset($data['category_name'], $data['graphic_feature'], $data['category_id'])) {
+        $stmt = $dbh->prepare("UPDATE Categories SET category_name=?, graphic_feature=? WHERE category_id=?");
+        if ($stmt->execute([$data['category_name'], $data['graphic_feature'], $data['category_id']])) {
+            echo json_encode(["message" => "Category updated successfully."]);
+        } else {
+            echo json_encode(["message" => "Category update failed."]);
+        }
+    } else {
+        echo json_encode(["message" => "Invalid input."]);
+    }
+}
+
+// Dane do zaktualizowania
+$data = [
+    'category_id' => 1,
+    'category_name' => 'Koncerty Rockowwwww',
+    'graphic_feature' => '#F3FDE8'
+];
+
+// Wywołanie funkcji updateCategory z podstawionymi danymi
+updateCategory($data);
+
+
 
 if (session_status() == PHP_SESSION_ACTIVE) {
     echo "Sesja jest aktywna.";

@@ -2,8 +2,8 @@
 
 if (session_status() == PHP_SESSION_NONE) {
     // Ustawienia sesji
-    ini_set('session.cookie_lifetime', 600); // 10 minut
-    ini_set('session.gc_maxlifetime', 600); // 10 minut
+    ini_set('session.cookie_lifetime', 1800); // 30 minut
+    ini_set('session.gc_maxlifetime', 1800); // 30 minut
     //ini_set('session.cookie_secure', '1');
 
     

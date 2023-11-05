@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import EventTimeline from './Komponenty/EventTimeline';
 import EventTimelineMUI from './Komponenty/EventTimelineMUI';
+import { Source } from '@mui/icons-material';
+import SourceComponent from './SourceComponent';
 
 function Home() {
   const { user } = useContext(AuthContext);
@@ -10,15 +12,7 @@ function Home() {
   return (
       <div className="under_nav home">
         <EventTimelineMUI />
-        {/*<div className="box-small">
-          <div>
-            <h2>Witaj na stronie kliniki lekarzy</h2>
-            <p className="large">Tu znajdziesz informacje na temat naszych <br/> usług i specjalistów.</p>
-            <Link to="/lekarze">
-            <button className="under_1" aria-label="Kliknij i przejdź do lekrzy">Poznaj nas!</button>
-            </Link>
-          </div>
-        </div>*/}
+        <SourceComponent />
       </div>
   );
 }

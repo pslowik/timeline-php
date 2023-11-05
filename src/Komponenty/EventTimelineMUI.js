@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot } from '@mui/lab';
 import { Dialog, Button } from '@mui/material';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
+
 function EventBadgeMUI({ event, alignRight }) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleOpenDialog = () => {
         setDialogOpen(true);
@@ -16,18 +19,43 @@ function EventBadgeMUI({ event, alignRight }) {
     };
 
     const handleEdit = () => {
-        window.location.href = `/admin?categoryIdProp=${event.category_id}`;
+        console.log('event:', event.event_id);
+        console.log('category:', event.category_id);
+        navigate('/admin', { state: { categoryIdProp: event.category_id, eventIdProp: event.event_id } });
+        //navigate('/admin', { state: { event } });
+
     };
 
-    const handleDelete = () => {
-        // Deletion logic
+    const handleDelete = async (eventId) => {
+        try {
+            const data = {
+                action: 'deleteEvent',
+                event_id: eventId
+            };
+
+            const response = await axios.delete('http://localhost/timeline-php/php/crud-json.php', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                withCredentials: true
+            });
+
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <>
             <div onClick={handleOpenDialog} style={{ padding: '10px', backgroundColor: event.graphic_feature || '#f9f9f9' }}>
                 <h3>{event.event_name}</h3>
-                {/* ... other event info */}
+                <p>Start: {event.start_date}</p>
+                <p>Koniec: {event.end_date}</p>
+                {event.image_url && /^https?:\/\/.+/.test(event.image_url) ? <img src={event.image_url} alt={`${event.event_name} illustration`} /> : <p>Brak obrazka</p>}
+                <p>Kategoria: {event.category_name}</p>
+                {/* ... dodac inne informacje o wydarzeniu */}
             </div>
 
             <AuthContext.Consumer>
@@ -35,7 +63,7 @@ function EventBadgeMUI({ event, alignRight }) {
                     user && (
                         <div style={{ marginTop: '10px' }}>
                             <Button variant="outlined" color="primary" onClick={handleEdit}>Edit</Button>
-                            <Button variant="outlined" color="secondary" onClick={handleDelete} style={{ marginLeft: '10px' }}>Delete</Button>
+                            <Button variant="outlined" color="secondary" onClick={() => handleDelete(event.event_id)} style={{ marginLeft: '10px' }}>Delete</Button>
                         </div>
                     )
                 )}
@@ -47,6 +75,7 @@ function EventBadgeMUI({ event, alignRight }) {
             >
                 <div style={{ padding: '20px' }}>
                     <h3>{event.event_name}</h3>
+                    <p>{event.description}</p>
                     {/* ... more event info */}
                 </div>
             </Dialog>
@@ -59,7 +88,7 @@ function EventTimelineMUI() {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        axios.get({
+        axios({
             method: 'post',
             url: 'http://localhost/timeline-php/php/crud.php',
             data: {

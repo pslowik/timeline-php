@@ -9,6 +9,8 @@ import Register from './Komponenty/Register';
 import Admin from './Admin';
 import ProtectedRoute from './Komponenty/ProtectedRoute';
 import { AuthContext } from './context/AuthContext';
+import ChangePassword from './Komponenty/ChangePassword';
+
 
 function App() {
   const { setUser } = useContext(AuthContext);
@@ -37,14 +39,12 @@ function App() {
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/changepassword" element={<ChangePassword/>} />
+
         <Route path="/admin" element={<ProtectedRoute/>} >
           <Route path='/admin' element={<Admin/>}/>
         </Route>
-        {/*<Route path='/register' element={<ProtectedRoute/>}>
-          <Route path='/register' element={<Register/>}/>
-          //other protected routes can go here 
-        </Route>
-      */}
+    
       </Routes>
       <Footer />
     </Router>

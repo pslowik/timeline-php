@@ -6,7 +6,7 @@ const ProtectedRoute = ({ path, element }) => {
     const { user } = useContext(AuthContext);
 
     return (
-        user ? <Outlet/> : <Navigate to="/" />
+        user ? <Outlet/> : <Navigate to="/" state={{ from: path }} />
     );
 };
 

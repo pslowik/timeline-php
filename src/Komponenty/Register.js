@@ -30,6 +30,12 @@ function Register() {
         }
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            register();
+        }
+    };
+
     return (
         <div style={styles.container}>
             <div style={styles.formContainer}>
@@ -45,6 +51,7 @@ function Register() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={handleKeyPress}
                     style={styles.input}
                 />
                 <button onClick={register} style={styles.button}>Register</button>
@@ -64,25 +71,28 @@ const styles = {
         backgroundColor: '#f0f0f0',
     },
     formContainer: {
+        backgroundColor: '#ffffff',
         padding: '20px',
-        borderRadius: '5px',
-        backgroundColor: '#fff',
+        borderRadius: '8px',
         boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+        width: '300px',
     },
     input: {
         width: '95%',
         padding: '10px',
-        marginBottom: '10px',
-        borderRadius: '5px',
+        margin: '10px 0',
+        borderRadius: '4px',
         border: '1px solid #ddd',
     },
     button: {
         width: '100%',
         padding: '10px',
-        borderRadius: '5px',
+        margin: '10px 0',
+        borderRadius: '4px',
         border: 'none',
         backgroundColor: '#008CBA',
         color: '#fff',
+        fontSize: '16px',
         cursor: 'pointer',
     }
 };
