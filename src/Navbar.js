@@ -77,17 +77,17 @@ const styles = {
     height: '40px',
     width: 'auto',
     '@media (maxWidth: 868px)': {
-      height: '20px',  // zmniejszenie wysokości logo na mniejszych ekranach
+      height: '20px',  
     },
   },
   title: {
     flex: 2,
     textAlign: 'center',
     fontSize: '24px',
-    justifyContent: 'center', // centrowanie zawartości wertykalnie
+    justifyContent: 'center', 
     flexDirection: 'column',
     '@media (maxWidth: 868px)': {
-      fontSize: '15px',  // zmniejszenie rozmiaru czcionki na mniejszych ekranach
+      fontSize: '15px',  
       textAlign: 'center',
 
     },
@@ -96,7 +96,7 @@ const styles = {
     flex: 3,
     textAlign: 'right',
     '@media (maxWidth: 868px)': {
-      flex: 3,  // zwiększenie flex-grow na mniejszych ekranach, aby zająć więcej miejsca
+      flex: 3,  
     },
   },
   loginLink: {
@@ -106,7 +106,7 @@ const styles = {
     border: '1px solid #fff',
     borderRadius: '5px',
     '@media (maxWidth: 868px)': {
-      padding: '8px 16px',  // zmniejszenie paddingu na mniejszych ekranach
+      padding: '8px 16px',  
     },
   },
   homeLink: {

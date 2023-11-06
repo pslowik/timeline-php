@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function Admin() {
@@ -189,7 +189,7 @@ const { categoryIdProp,
             .catch(error => {
                 console.log(error);
             });
-    }, [reload]); // useEffect listener triggered by state variable
+    }, [reload]); // useEffect listener
 
 
     return (

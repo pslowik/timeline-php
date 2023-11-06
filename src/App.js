@@ -21,7 +21,6 @@ function App() {
       { withCredentials: true }
     )
       .then(response => {
-        //console.log('Response:', response);
         if (response.data.isAuthenticated) {
           console.log('check sesion response.data:', response.data.isAuthenticated);
           setUser(response.data.user);

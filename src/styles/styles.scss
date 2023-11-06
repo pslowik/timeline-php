@@ -385,14 +385,14 @@ button {
 .contact-details p svg {
   margin-right: 10px;
 }
-
+/*
 .form-background { 
   background-image: url('/public/pics/formularz.jpg');
   height: 90vh;
   background-size: cover;
   background-position: center;
 }
-
+*/
 .form-container {
   display: grid;
   place-items: center;
@@ -545,13 +545,13 @@ button[type="submit"] {
 	  color: red;
   z-index: 9999;
 }
-
+/*
 .tlo-opis {
   background-image: url("/public/pics/tło-opis.jpg");
   background-size: cover;
   background-position: center;
 }
-
+*/
 .box-opis {
   position: relative;
   display: flex;

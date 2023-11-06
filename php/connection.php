@@ -5,18 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
     ini_set('session.cookie_lifetime', 1800); // 30 minut
     ini_set('session.gc_maxlifetime', 1800); // 30 minut
     //ini_set('session.cookie_secure', '1');
-
-    
-
-    // Inicjowanie sesji
-    //session_start();
 }
 session_start();
-$host = 'localhost';  // Adres hosta bazy danych, zazwyczaj jest to localhost lub 127.0.0.1
-$db   = 'Timeline1';  // Nazwa Twojej bazy danych
-$user = 'user1';  // Twoja nazwa użytkownika dla bazy danych
-$pass = '1234';  // Twoje hasło dla bazy danych
-$charset = 'utf8mb4';  // Zestaw znaków używany przez Twoją bazę danych
+$host = 'localhost';  // Adres hosta bazy danych,localhost lub 127.0.0.1
+$db   = 'Timeline1';  // Nazwa bazy danych
+$user = 'user1'; 
+$pass = '1234';
+$charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [

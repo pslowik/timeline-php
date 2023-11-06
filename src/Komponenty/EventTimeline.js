@@ -33,7 +33,7 @@ function EventBadge({ event, alignRight }) {
         <p>Koniec: {event.end_date}</p>
         <img src={event.image_url} alt={`${event.event_name} illustration`} />
         <p>Kategoria: {event.category_name}</p>
-        {/* ... dodac inne informacje o wydarzeniu */}
+        {/* ... dodac inne */}
       </div>
 
       <AuthContext.Consumer>
@@ -54,7 +54,7 @@ function EventBadge({ event, alignRight }) {
         <div className="event-dialog-content">
           <h3>{event.event_name}</h3>
           <p>{event.description}</p>
-          {/* ...dodac inne informacje o wydarzeniu */}
+          {/* ...dodac inne */}
         </div>
       </Dialog>
     </div>
@@ -94,7 +94,7 @@ function EventTimeline() {
 
   return (
       <div className="timeline">
-        <div className="event-line"></div>  {/* Dodane linia czasu */}
+        <div className="event-line"></div>
         {eventsData.map((event, index) => (
           <div className="event" key={index}>
             <div className="event-node"></div>

@@ -34,8 +34,6 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
                 eventImageUrlProp: event.image_url
             }
         });
-        //navigate('/admin', { state: { event } });
-
     };
 
     const handleDelete = async (eventId) => {
@@ -52,7 +50,7 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
                 withCredentials: true
             });
             console.log(response.data.message);
-            setReload(prevReload => !prevReload); // set state variable to trigger useEffect listener
+            setReload(prevReload => !prevReload);
         } catch (error) {
             console.log(error);
         }
@@ -66,7 +64,7 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
                 <p>Koniec: {event.end_date}</p>
                 {event.image_url && /^https?:\/\/.+/.test(event.image_url) ? <img src={event.image_url} alt={`${event.event_name} illustration`} /> : <p>Brak obrazka</p>}
                 <p>Kategoria: {event.category_name}</p>
-                {/* ... dodac inne informacje o wydarzeniu */}
+                {/* ... dodac inne */}
             </div>
 
             <AuthContext.Consumer className="no-print">
@@ -96,7 +94,7 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
                 <div style={{ padding: '20px' }}>
                     <h3>{event.event_name}</h3>
                     <p>{event.description}</p>
-                    {/* ... more event info */}
+                    {/* ... */}
                 </div>
             </Dialog>
         </>
@@ -105,7 +103,7 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
 
 function EventTimelineMUI() {
     const [eventsData, setEventsData] = useState(null);
-    const [reload, setReload] = useState(false); // state variable to trigger useEffect listener
+    const [reload, setReload] = useState(false); // trigger useEffect
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -126,7 +124,7 @@ function EventTimelineMUI() {
             .catch(error => {
                 console.log(error);
             });
-    }, [reload]); // useEffect listener triggered by state variable
+    }, [reload]); // useEffect listener
 
     if (!eventsData) {
         return <div className="spinner"></div>;

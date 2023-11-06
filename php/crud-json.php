@@ -1,12 +1,12 @@
 <?php
 
-header("Access-Control-Allow-Origin: http://localhost:8001");  // Zastąp 8001 portem, na którym działa Twoja aplikacja React
+header("Access-Control-Allow-Origin: http://localhost:8001");  // Zastąpic 8001 portem, na którym działa aplikacja React
 header("Access-Control-Allow-Methods: POST, OPTIONS, DELETE");  // Dopuszcza tylko zapytania POST, OPTIONS i DELETE
 header("Access-Control-Allow-Headers: Content-Type");  // Zezwala na nagłówki Content-Type
 header("Access-Control-Allow-Credentials: true"); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    // Respond to the preflight request
+    // preflight request
     exit;
 }
 
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 include 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-    $data = json_decode(file_get_contents('php://input'), true);  // Dekoduj dane JSON na tablicę PHP
+    $data = json_decode(file_get_contents('php://input'), true);
     
     if (isset($data['action'])) {
         $action = $data['action'];
@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
             case 'deleteCategory' : 
                 deleteCategory($data);
                 break;    
-            // ... inne przypadki
             default:
                 echo json_encode(["message" => "Invalid action."]);
                 break;
@@ -49,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
             case 'updateEvent': 
                 updateEvent($data);
                 break;  
-            // ... inne przypadki
             default:
             echo json_encode(["message" => "Invalid action."]);
             break;
