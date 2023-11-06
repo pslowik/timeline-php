@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
   const { user, setUser } = useContext(AuthContext);
@@ -34,7 +34,7 @@ function Navbar() {
           {user ? (
             <>
               <NavLink to="/admin" activestyle={styles.activeLink} style={styles.loginLink} >
-              <FontAwesomeIcon icon={faUser} style={{color: "#ffffff"}} /> {user.name}
+              <FontAwesomeIcon icon={faPlus} style={{color: "#ffffff"}} /> {user.name}
               </NavLink>
               <button onClick={handleLogout} activestyle={styles.activeLink} style={styles.loginLink}>Logout</button>
             </>
