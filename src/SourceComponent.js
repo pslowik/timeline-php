@@ -9,7 +9,7 @@ function SourceComponent() {
   }
   
   return (
-    <button >Go to Target Component</button>
+    <button className="no-print">_ </button>
   );
 }
 export default SourceComponent;

@@ -181,7 +181,7 @@ p {
 }
 
 .home { 
-  //background-image: url('/public/pics/lekarze-home.jpg');
+  //background-image: url('/public/pics/home.jpg');
   height: 90vh;
   background-size: cover;
   background-position: center;
@@ -617,14 +617,14 @@ button[type="submit"] {
   //position: relative;
   display: flex;
   width: 100%;
-  margin-bottom: 20px; // lub inna wartość, aby kontrolować odstępy między wydarzeniami
+  margin-bottom: 20px; 
 
   &:nth-child(odd) .event-badge {
-    margin-left: 20px; // lub inna wartość, aby kontrolować odstępy między węzłem a kartą wydarzenia
+    margin-left: 20px; 
   }
 
   &:nth-child(even) .event-badge {
-    margin-right: 20px; // lub inna wartość, aby kontrolować odstępy między węzłem a kartą wydarzenia
+    margin-right: 20px; 
   }
 }
 
@@ -757,4 +757,17 @@ button[type="submit"] {
       margin-right: 0;
     }
   }
+}
+
+@media print {
+  .no-print {
+      display: none;
+  }
+}
+
+.print-button {
+  position: fixed;
+  top: 10px;
+  left: 20px;
+  z-index: 1000; 
 }

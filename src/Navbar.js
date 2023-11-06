@@ -22,7 +22,7 @@ function Navbar() {
   };
 
   return (
-    <nav style={styles.navbar}>
+    <nav style={styles.navbar} className="no-print">
       <div style={styles.navbarContainer}>
         <div style={styles.logo}>
           {/*dodac pozniej logo*/}

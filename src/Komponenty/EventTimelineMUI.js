@@ -6,7 +6,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
 
-function EventBadgeMUI({ event, alignRight }) {
+function EventBadgeMUI({ event, alignRight, setReload }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -21,7 +21,19 @@ function EventBadgeMUI({ event, alignRight }) {
     const handleEdit = () => {
         console.log('event:', event.event_id);
         console.log('category:', event.category_id);
-        navigate('/admin', { state: { categoryIdProp: event.category_id, eventIdProp: event.event_id } });
+        navigate('/admin', {
+            state: {
+                categoryIdProp: event.category_id,
+                eventIdProp: event.event_id,
+                categoryNameProp: event.category_name,
+                categoryDescriptionProp: event.graphic_feature,
+                eventNameProp: event.event_name,
+                eventStartDateProp: event.start_date,
+                eventEndDateProp: event.end_date,
+                eventDescriptionProp: event.description,
+                eventImageUrlProp: event.image_url
+            }
+        });
         //navigate('/admin', { state: { event } });
 
     };
@@ -32,7 +44,6 @@ function EventBadgeMUI({ event, alignRight }) {
                 action: 'deleteEvent',
                 event_id: eventId
             };
-
             const response = await axios.delete('http://localhost/timeline-php/php/crud-json.php', {
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,8 +51,8 @@ function EventBadgeMUI({ event, alignRight }) {
                 data: JSON.stringify(data),
                 withCredentials: true
             });
-
-            console.log(response.data);
+            console.log(response.data.message);
+            setReload(prevReload => !prevReload); // set state variable to trigger useEffect listener
         } catch (error) {
             console.log(error);
         }
@@ -58,12 +69,21 @@ function EventBadgeMUI({ event, alignRight }) {
                 {/* ... dodac inne informacje o wydarzeniu */}
             </div>
 
-            <AuthContext.Consumer>
+            <AuthContext.Consumer className="no-print">
                 {({ user }) => (
                     user && (
                         <div style={{ marginTop: '10px' }}>
-                            <Button variant="outlined" color="primary" onClick={handleEdit}>Edit</Button>
-                            <Button variant="outlined" color="secondary" onClick={() => handleDelete(event.event_id)} style={{ marginLeft: '10px' }}>Delete</Button>
+                            <style type="text/css">
+                                {`
+                        @media print {
+                            .no-print {
+                                display: none;
+                            }
+                        }
+                    `}
+                            </style>
+                            <Button variant="outlined" color="primary" onClick={handleEdit} className="no-print">Edit</Button>
+                            <Button variant="outlined" color="secondary" onClick={() => handleDelete(event.event_id)} style={{ marginLeft: '10px' }} className="no-print">Delete</Button>
                         </div>
                     )
                 )}
@@ -85,6 +105,7 @@ function EventBadgeMUI({ event, alignRight }) {
 
 function EventTimelineMUI() {
     const [eventsData, setEventsData] = useState(null);
+    const [reload, setReload] = useState(false); // state variable to trigger useEffect listener
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -92,39 +113,41 @@ function EventTimelineMUI() {
             method: 'post',
             url: 'http://localhost/timeline-php/php/crud.php',
             data: {
-              action: 'getEvents'
+                action: 'getEvents'
             },
             headers: { "Content-Type": "application/x-www-form-urlencoded" }
-          },
-          {},
-          { withCredentials: true }
-          )
+        },
+            {},
+            { withCredentials: true }
+        )
             .then(response => {
                 setEventsData(response.data);
             })
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [reload]); // useEffect listener triggered by state variable
 
     if (!eventsData) {
         return <div className="spinner"></div>;
     }
 
     return (
-        <Timeline position="alternate">
-            {eventsData.map((event, index) => (
-                <TimelineItem key={index}>
-                    <TimelineSeparator>
-                        <TimelineDot />
-                        {index < eventsData.length - 1 && <TimelineConnector />}
-                    </TimelineSeparator>
-                    <TimelineContent>
-                        <EventBadgeMUI event={event} alignRight={index % 2 === 1} />
-                    </TimelineContent>
-                </TimelineItem>
-            ))}
-        </Timeline>
+        <>
+            <Timeline position="alternate">
+                {eventsData.map((event, index) => (
+                    <TimelineItem key={index}>
+                        <TimelineSeparator>
+                            <TimelineDot />
+                            {index < eventsData.length - 1 && <TimelineConnector />}
+                        </TimelineSeparator>
+                        <TimelineContent>
+                            <EventBadgeMUI event={event} alignRight={index % 2 === 1} setReload={setReload} />
+                        </TimelineContent>
+                    </TimelineItem>
+                ))}
+            </Timeline>
+        </>
     );
 }
 

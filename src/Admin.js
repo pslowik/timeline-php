@@ -5,26 +5,36 @@ import axios from 'axios';
 function Admin() {
 
 const location = useLocation();
-const { categoryIdProp, eventIdProp } = location.state || {};
-//console.log('categoryIdProp:', categoryIdProp);
-//console.log('eventIdProp:', eventIdProp);
-const [eventId, setEventId] = useState(eventIdProp || '');
-const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
+const { categoryIdProp, 
+        eventIdProp,
+        categoryNameProp,
+        categoryDescriptionProp,
+        eventNameProp,
+        eventStartDateProp,
+        eventEndDateProp,
+        eventDescriptionProp,
+        eventImageUrlProp,
+    } = location.state || {};
+
+    const [eventId, setEventId] = useState(eventIdProp || '');
+    const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
 
     const [categoryId, setCategoryId] = useState(categoryIdProp || '');
     const [categoryIdDel, setCategoryIdDel] = useState(categoryIdProp || '');
 
-    const [categoryName, setCategoryName] = useState('');
-    const [categoryDescription, setCategoryDescription] = useState('');
-    const [eventName, setEventName] = useState('');
-    const [eventDescription, setEventDescription] = useState('');
-    const [eventStartDate, setEventStartDate] = useState('');
-    const [eventEndDate, setEventEndDate] = useState('');
-    const [eventImageUrl, setEventImageUrl] = useState('');
+    const [categoryName, setCategoryName] = useState(categoryNameProp ||'');
+    const [categoryDescription, setCategoryDescription] = useState(categoryDescriptionProp || '');
+    const [eventName, setEventName] = useState(eventNameProp || '');
+    const [eventDescription, setEventDescription] = useState(eventDescriptionProp || '');
+    const [eventStartDate, setEventStartDate] = useState(eventStartDateProp || '');
+    const [eventEndDate, setEventEndDate] = useState(eventEndDateProp || '');
+    const [eventImageUrl, setEventImageUrl] = useState(eventImageUrlProp || '');
 
     const [categoryError, setCategoryError] = useState(false);
     const [categoryErrorDel, setCategoryErrorDel] = useState(false);
     const [eventError, setEventError] = useState(false);
+    const [reload, setReload] = useState(false);
+    const [categoriesData, setCategoriesData] = useState([]);
 
     const createCategory = () => {
         if (categoryName && categoryDescription) {
@@ -41,6 +51,7 @@ const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
                 withCredentials: true
             })
                 .then(response => {
+                    setReload(!reload);
                     console.log(response.data);
                 })
                 .catch(error => {
@@ -96,6 +107,7 @@ const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
                     },
                     withCredentials: true
                 });
+                setReload(!reload);
                 console.log(response.data.message);
             } catch (error) {
                 console.log(error);
@@ -131,8 +143,6 @@ const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
             }
         } else {
             setEventError(true);
-            console.log(eventName, eventStartDate, eventEndDate, eventDescription, eventImageUrl, eventCategoryId);
-
         }
     };
 
@@ -144,12 +154,14 @@ const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
             };
 
             try {
-                const response = await axios.post('http://localhost/timeline-php/php/crud-json.php', JSON.stringify(data), {
+                const response = await axios.delete('http://localhost/timeline-php/php/crud-json.php', {
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    data: JSON.stringify(data),
                     withCredentials: true
                 });
+                setReload(!reload);
                 console.log(response.data.message);
             } catch (error) {
                 console.log(error);
@@ -159,9 +171,50 @@ const [eventCategoryId, setEventCategoryId] = useState(categoryIdProp || '');
         }
     };
 
+    useEffect(() => {
+        axios({
+            method: 'post',
+            url: 'http://localhost/timeline-php/php/crud.php',
+            data: {
+                action: 'getCategories'
+            },
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        },
+        {},
+        { withCredentials: true }
+        )
+            .then(response => {
+                setCategoriesData(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, [reload]); // useEffect listener triggered by state variable
+
 
     return (
         <div className="under_2 containerAdmin">
+            <h2>Categories</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {categoriesData.map(category => (
+                        <tr key={category.category_id}>
+                            <td>{category.category_id}</td>
+                            <td>{category.category_name}</td>
+                            <td>{category.graphic_feature}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
             <h2>{categoryId ? 'Update Category' : 'Create Category'}</h2>
             {categoryId && <label>
                 ID:
