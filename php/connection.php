@@ -7,10 +7,10 @@ if (session_status() == PHP_SESSION_NONE) {
     //ini_set('session.cookie_secure', '1');
 }
 session_start();
-$host = 'localhost';  // Adres hosta bazy danych,localhost lub 127.0.0.1
-$db   = 'Timeline1';  // Nazwa bazy danych
-$user = 'userPW'; 
-$pass = 'userPW1';
+$host = 'localhost';  // 
+$db   = 'kef2020_pslowik';  // kef2020_pslowik Timeline1
+$user = 'kef2020_pslowik';  // userPW          kef2020_pslowik 
+$pass = '*5-MA-n.z*ae_30W';          // userPW1
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

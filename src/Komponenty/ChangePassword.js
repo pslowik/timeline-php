@@ -11,7 +11,7 @@ function ChangePassword() {
 
     const changePassword = async () => {
         try {
-            const response = await axios.post('http://localhost/timeline-php/php/change-password.php', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/change-password.php`, {
                 username,
                 currentPassword,
                 newPassword,

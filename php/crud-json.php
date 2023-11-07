@@ -1,6 +1,7 @@
 <?php
+include 'config.php';
 
-header("Access-Control-Allow-Origin: http://localhost:8001");  // Zastąpic 8001 portem, na którym działa aplikacja React
+header("Access-Control-Allow-Origin: $APP_URL");
 header("Access-Control-Allow-Methods: POST, OPTIONS, DELETE");  // Dopuszcza tylko zapytania POST, OPTIONS i DELETE
 header("Access-Control-Allow-Headers: Content-Type");  // Zezwala na nagłówki Content-Type
 header("Access-Control-Allow-Credentials: true"); 

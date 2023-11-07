@@ -11,7 +11,7 @@ function Navbar() {
   const handleLogout = async () => {
     setUser(null);
     try {
-      const response = await axios.post('http://localhost/timeline-php/php/logout.php',
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}//logout.php`,
       {},
       {withCredentials: true}
       );

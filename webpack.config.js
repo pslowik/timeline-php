@@ -1,6 +1,26 @@
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = {
-  mode: 'development',
+const dotenv = require('dotenv');
+
+module.exports = (env) => {
+  // Ustaw, czy jesteś w trybie produkcyjnym, czy deweloperskim
+  const isProduction = env.NODE_ENV === 'production';
+
+  // Ustal, który plik .env powinien być używany
+  const envFile = isProduction ? '.env.production' : '.env.development';
+
+  // Wczytaj zmienne środowiskowe z odpowiedniego pliku
+  const envPath = path.resolve(__dirname, envFile);
+  const envVars = dotenv.config({ path: envPath }).parsed || {};
+
+  return {
+    mode: isProduction ? 'production' : 'development',
+    entry: './src/index.js',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'bundle.js',
+    },
     module: {
       rules: [
         {
@@ -29,20 +49,23 @@ module.exports = {
         {
           test: /\.scss$/,
           use: ["style-loader", "css-loader", "sass-loader",
-          ],  
+          ],
         },
       ],
     },
-  //add server
-  devServer: {
-    port: 8001,
-    historyApiFallback: true,
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template:
-        './public/index.html',
+    //add server
+    devServer: {
+      port: 8001,
+      historyApiFallback: true,
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './public/index.html',
         favicon: './public/favicon.ico',
-    }),
-  ],
+      }),
+      new webpack.DefinePlugin({
+        'process.env': JSON.stringify(envVars),
+      }),
+    ],
+  };
 };

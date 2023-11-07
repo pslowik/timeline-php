@@ -44,7 +44,7 @@ const { categoryIdProp,
                 graphic_feature: categoryDescription
             };
 
-            axios.post('http://localhost/timeline-php/php/crud-json.php', JSON.stringify(data), {
+            axios.post(`${process.env.REACT_APP_API_URL}/crud-json.php`, JSON.stringify(data), {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -74,7 +74,7 @@ const { categoryIdProp,
                 image_url: eventImageUrl
             };
 
-            axios.post('http://localhost/timeline-php/php/crud-json.php', JSON.stringify(data), {
+            axios.post(`${process.env.REACT_APP_API_URL}/crud-json.php`, JSON.stringify(data), {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -101,7 +101,7 @@ const { categoryIdProp,
             };
     
             try {
-                const response = await axios.post('http://localhost/timeline-php/php/crud-json.php', JSON.stringify(data), {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/crud-json.php`, JSON.stringify(data), {
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -131,7 +131,7 @@ const { categoryIdProp,
             };
     
             try {
-                const response = await axios.post('http://localhost/timeline-php/php/crud-json.php', JSON.stringify(data), {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/crud-json.php`, JSON.stringify(data), {
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -154,7 +154,7 @@ const { categoryIdProp,
             };
 
             try {
-                const response = await axios.delete('http://localhost/timeline-php/php/crud-json.php', {
+                const response = await axios.delete(`${process.env.REACT_APP_API_URL}/crud-json.php`, {
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -174,7 +174,7 @@ const { categoryIdProp,
     useEffect(() => {
         axios({
             method: 'post',
-            url: 'http://localhost/timeline-php/php/crud.php',
+            url: `${process.env.REACT_APP_API_URL}/crud.php`,
             data: {
                 action: 'getCategories'
             },

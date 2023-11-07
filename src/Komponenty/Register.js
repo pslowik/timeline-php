@@ -13,7 +13,7 @@ function Register() {
 
     const register = async () => {
         try {
-            const response = await axios.post('http://localhost/timeline-php/php/registration.php', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/registration.php`, {
                 username,
                 password,
             });        

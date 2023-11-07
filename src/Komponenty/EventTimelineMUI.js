@@ -19,8 +19,6 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
     };
 
     const handleEdit = () => {
-        console.log('event:', event.event_id);
-        console.log('category:', event.category_id);
         navigate('/admin', {
             state: {
                 categoryIdProp: event.category_id,
@@ -42,7 +40,7 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
                 action: 'deleteEvent',
                 event_id: eventId
             };
-            const response = await axios.delete('http://localhost/timeline-php/php/crud-json.php', {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/crud-json.php`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -109,7 +107,7 @@ function EventTimelineMUI() {
     useEffect(() => {
         axios({
             method: 'post',
-            url: 'http://localhost/timeline-php/php/crud.php',
+            url: `${process.env.REACT_APP_API_URL}/crud.php`,
             data: {
                 action: 'getEvents'
             },

@@ -69,7 +69,7 @@ function EventTimeline() {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'http://localhost/timeline-php/php/crud.php',
+      url: `${process.env.REACT_APP_API_URL}/crud.php`,
       data: {
         action: 'getEvents'
       },
