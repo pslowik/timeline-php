@@ -8,9 +8,9 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 session_start();
 $host = 'localhost';  // 
-$db   = 'kef2020_pslowik';  // kef2020_pslowik Timeline1
-$user = 'kef2020_pslowik';  // userPW          kef2020_pslowik 
-$pass = '*5-MA-n.z*ae_30W';          // userPW1
+$db   = 'Timeline1';  // kef2020_pslowik Timeline1
+$user = 'userPW';  // userPW          kef2020_pslowik 
+$pass = 'userPW1';          // userPW1 *5-MA-n.z*ae_30W
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

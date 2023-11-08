@@ -41,7 +41,7 @@ function App() {
         <Route path="/changepassword" element={<ChangePassword/>} />
 
         <Route path="/admin" element={<ProtectedRoute/>} >
-          <Route path='/admin' element={<Admin/>}/>
+          <Route path='/admin' element={<Admin key={Date.now()} />}/>
         </Route>
     
       </Routes>

@@ -1,3 +1,5 @@
 node_modules
 .env
 .env.production
+php/connection.php
+php/config.php

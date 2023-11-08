@@ -60,7 +60,10 @@ function EventBadgeMUI({ event, alignRight, setReload }) {
                 <h3>{event.event_name}</h3>
                 <p>Start: {event.start_date}</p>
                 <p>Koniec: {event.end_date}</p>
-                {event.image_url && /^https?:\/\/.+/.test(event.image_url) ? <img src={event.image_url} alt={`${event.event_name} illustration`} /> : <p>Brak obrazka</p>}
+                {event.image_url && /^https?:\/\/.+/.test(event.image_url) 
+                    ? <img src={event.image_url} alt={`${event.event_name} illustration`} className="event-image"/>
+                     : <p>Brak obrazka</p>
+                }
                 <p>Kategoria: {event.category_name}</p>
                 {/* ... dodac inne */}
             </div>

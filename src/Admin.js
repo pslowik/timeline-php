@@ -33,6 +33,7 @@ const { categoryIdProp,
     const [categoryError, setCategoryError] = useState(false);
     const [categoryErrorDel, setCategoryErrorDel] = useState(false);
     const [eventError, setEventError] = useState(false);
+    const [eventSuccess, setEventSuccess] = useState(false);
     const [reload, setReload] = useState(false);
     const [categoriesData, setCategoriesData] = useState([]);
 
@@ -53,6 +54,7 @@ const { categoryIdProp,
                 .then(response => {
                     setReload(!reload);
                     console.log(response.data);
+                    window.confirm('Success!');
                 })
                 .catch(error => {
                     console.log(error);
@@ -81,7 +83,9 @@ const { categoryIdProp,
                 withCredentials: true
             })
                 .then(response => {
+                    setEventSuccess(true);
                     console.log(response.data);
+                    window.confirm('Success!');
                 })
                 .catch(error => {
                     console.log(error);
@@ -109,6 +113,7 @@ const { categoryIdProp,
                 });
                 setReload(!reload);
                 console.log(response.data.message);
+                window.confirm('Success!');
             } catch (error) {
                 console.log(error);
             }
@@ -137,7 +142,9 @@ const { categoryIdProp,
                     },
                     withCredentials: true
                 });
+                setEventSuccess(true);
                 console.log(response.data.message);
+                window.confirm('Success!');
             } catch (error) {
                 console.log(error);
             }
@@ -163,6 +170,7 @@ const { categoryIdProp,
                 });
                 setReload(!reload);
                 console.log(response.data.message);
+                window.confirm('Success!');
             } catch (error) {
                 console.log(error);
             }
@@ -191,6 +199,28 @@ const { categoryIdProp,
             });
     }, [reload]); // useEffect listener
 
+    useEffect(() => {
+        // Sprawdź, czy przekazano jakiekolwiek propsy do komponentu Admin
+        if (!location.state) {
+          // Jeśli nie, to ustaw stany odpowiedzialne za tworzenie na ich wartości domyślne
+          setEventId('');
+          setEventCategoryId('');
+          setCategoryId('');
+          setCategoryIdDel('');
+          setCategoryName('');
+          setCategoryDescription('');
+          setEventName('');
+          setEventDescription('');
+          setEventStartDate('');
+          setEventEndDate('');
+          setEventImageUrl('');
+          // Możesz również zresetować wszelkie komunikaty o błędach
+          setCategoryError(false);
+          setCategoryErrorDel(false);
+          setEventError(false);
+          setEventSuccess(false);
+        }
+    }, [location]);
 
     return (
         <div className="under_2 containerAdmin">

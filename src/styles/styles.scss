@@ -769,5 +769,12 @@ button[type="submit"] {
   position: fixed;
   top: 10px;
   left: 20px;
-  z-index: 1000; 
+  z-index: 1000;
+}
+
+.event-image {
+  max-width: 100%; 
+  max-height: 230px;
+  height: auto;
+  object-fit: cover; 
 }

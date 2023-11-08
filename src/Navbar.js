@@ -34,6 +34,7 @@ function Navbar() {
           {user ? (
             <>
               <NavLink to="/admin" activestyle={styles.activeLink} style={styles.loginLink} >
+                
               <FontAwesomeIcon icon={faPlus} style={{color: "#ffffff"}} /> {user.name}
               </NavLink>
               <button onClick={handleLogout} activestyle={styles.activeLink} style={styles.loginLink}>Logout</button>
