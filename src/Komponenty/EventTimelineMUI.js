@@ -128,7 +128,11 @@ function EventTimelineMUI() {
     }, [reload]); // useEffect listener
 
     if (!eventsData) {
-        return <div className="spinner"></div>;
+        return  <div>
+                  <div>Sprawdź czy połączyłeś się z linkiem http://pslowik.krystianzak.pl a nie HTTPS!</div>
+                  <div className="spinner"></div>;
+                </div>;
+               
     }
 
     return (

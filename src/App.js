@@ -16,7 +16,7 @@ function App() {
   const { setUser } = useContext(AuthContext);
 
   useEffect(() => {
-    axios.post(`${process.env.REACT_APP_API_URL}//check-session.php`,
+    axios.post(`${process.env.REACT_APP_API_URL}/check-session.php`,
       {},
       { withCredentials: true }
     )
